@@ -23,3 +23,20 @@ resource "azurerm_redis_cache" "example" {
   minimum_tls_version = "1.2"
   redis_configuration {}
 }
+
+resource "azurerm_eventhub_namespace" "example" {
+  name                = "sampleevnthubnamesp"
+  location            = "${azurerm_resource_group.example.location}"
+  resource_group_name = "${azurerm_resource_group.example.name}"
+  sku                 = "Standard"
+  capacity            = 2
+}
+
+resource "azurerm_eventhub" "example" {
+  name                = "sampleevnthb"
+  namespace_name      = "${azurerm_eventhub_namespace.example.name}"
+  resource_group_name = "${azurerm_resource_group.example.name}"
+  partition_count   = 2
+  message_retention = 1
+}
+
